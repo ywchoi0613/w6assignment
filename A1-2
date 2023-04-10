@@ -1,0 +1,24 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+int chl[5];
+float dus[3];
+void mul5() {
+	for (int i=0; i < 5; i++) {
+		chl[i] = 1000 * (i + 1) * 5;
+	}
+}
+void jaseung() {
+	for (float j=-0.5; j <= 0.5; j = j + 0.5) {
+		dus[int(2 * j + 1)] = j * j;
+	}
+}
+void main() {
+	ofstream xx("mybin.dat", ios::binary | ios::out);
+	int firstln = 1234;
+	xx.write((char*)&firstln, sizeof(int));
+	mul5();
+	xx.write((char*)chl, 5 * sizeof(int));
+	jaseung();
+	xx.write((char*)dus, 3 * sizeof(float));
+}
