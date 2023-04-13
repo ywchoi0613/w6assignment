@@ -3,13 +3,26 @@
 using namespace std;
 short music[1000];
 int main() {
+	char header[44];
 	ifstream xx("holdonadele.wav", ios::binary | ios::in);
-	if (!xx) return 666;
-	xx.read((char*)music, 2000);
+	if (!xx) {
+		cout << "cant read holdonadele.wav\n";
+		return 666;
+	}
+	xx.read(header, 44);
+	unsigned int* SampleRate;
+	SampleRate = (unsigned int*)(header + 24);
 	xx.close();
+	ifstream yy("holdonadele.wav", ios::binary | ios::in);
+	if (!yy) {
+		cout << "cant read holdonadele.wav\n";
+		return 666;
+	}
+	yy.read((char*)music, 2000);
+	yy.close();
 	ofstream aaa("data.txt");
-	float dt = 1. / 48000;
+	float dt = 1. / SampleRate[0];
 	for (int i = 0; i < 500; i++) {
-		aaa << i * dt << " " << music[i*2] << " " << music[i*2+1] << endl;
+		aaa << i * dt << " " << music[i * 2] << " " << music[i * 2 + 1] << endl;
 	}
 }
