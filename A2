@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
-short music[1000];
+short music[3000];
 int main() {
 	char header[44];
 	ifstream xx("holdonadele.wav", ios::binary | ios::in);
@@ -10,19 +10,56 @@ int main() {
 		return 666;
 	}
 	xx.read(header, 44);
+	unsigned int* ChunkID;
+	ChunkID = (unsigned int*)(header + 0);
+	cout << "ChunkID = " << *ChunkID << endl;
+	unsigned int* ChunkSize;
+	ChunkSize = (unsigned int*)(header + 4);
+	cout << "ChunkSize = " << *ChunkSize << endl;
+	unsigned int* Format;
+	Format = (unsigned int*)(header + 8);
+	cout << "Format = " << *Format << endl;
+	unsigned int* Subchunk1ID;
+	Subchunk1ID = (unsigned int*)(header + 12);
+	cout << "Subchunk1ID = " << *Subchunk1ID << endl;
+	unsigned int* Subchunk1Size;
+	Subchunk1Size = (unsigned int*)(header + 16);
+	cout << "Subchunk1Size = " << *Subchunk1Size << endl;
+	unsigned short* AudioFormat;
+	AudioFormat = (unsigned short*)(header + 20);
+	cout << "AudioFormat = " << *AudioFormat << endl;
+	unsigned short* NumChannels;
+	NumChannels = (unsigned short*)(header + 22);
+	cout << "NumChannels = " << *ChunkID << endl;
 	unsigned int* SampleRate;
 	SampleRate = (unsigned int*)(header + 24);
+	cout << "SampleRate = " << *SampleRate << endl;
+	unsigned int* ByteRate;
+	ByteRate = (unsigned int*)(header + 28);
+	cout << "ByteRate = " << *ByteRate << endl;
+	unsigned short* BlockAlign;
+	BlockAlign = (unsigned short*)(header + 32);
+	cout << "BlockAlign = " << *BlockAlign << endl;
+	unsigned short* BitsPerSample;
+	BitsPerSample = (unsigned short*)(header + 34);
+	cout << "BitsPerSample = " << *BitsPerSample << endl;
+	unsigned int* Subchunk2ID;
+	Subchunk2ID = (unsigned int*)(header + 36);
+	cout << "Subchunk2ID = " << *Subchunk2ID << endl;
+	unsigned int* Subchunk2Size;
+	Subchunk2Size = (unsigned int*)(header + 40);
+	cout << "Subchunk2Size = " << *Subchunk2Size << endl;
 	xx.close();
 	ifstream yy("holdonadele.wav", ios::binary | ios::in);
 	if (!yy) {
 		cout << "cant read holdonadele.wav\n";
 		return 666;
 	}
-	yy.read((char*)music, 2000);
+	yy.read((char*)music, 6000);
 	yy.close();
 	ofstream aaa("data.txt");
 	float dt = 1. / SampleRate[0];
-	for (int i = 0; i < 500; i++) {
+	for (int i = 0; i < 1500; i++) {
 		aaa << i * dt << " " << music[i * 2] << " " << music[i * 2 + 1] << endl;
 	}
 }
